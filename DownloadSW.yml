@@ -1,0 +1,5 @@
+---
+- hosts: RashaPC
+  become: true
+  roles:
+    - Tools

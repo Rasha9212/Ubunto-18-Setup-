@@ -1,0 +1,37 @@
+---
+- name: Install SoftWare
+  apt: name={{item}} state=present
+  with_items:
+    - curl
+    - python-httplib2
+    - filezilla
+    - vagrant
+    - virtualbox
+
+## We didnt use it on the above task because some tool need repository ad key like atom,chrome...etc
+- name: Add atom repository
+  apt_repository: repo="ppa:webupd8team/atom" state=present
+
+- name: Install Atom Text Editor
+  apt: name={{item}} state=present
+  with_items:
+     - atom
+
+- name: Install Chrome Keys
+  apt_key:
+    url: "{{ chrome_apt_keyurl }}"
+    state: present
+
+- name: Install chrome apt repositories
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+  register: chrome_install_packages
+  with_items: '{{chrome_apt_repositories}}'
+
+- name: Install chrome server apt packages
+  apt:
+    pkg: '{{ item }}'
+    state: present
+    force: yes
+  with_items: '{{chrome_apt_packages}}'

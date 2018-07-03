@@ -1,0 +1,9 @@
+---
+- hosts: RashaPC
+  become: true
+  gather_facts: false
+  tasks:
+    - name: update apt cache
+      apt: update_cache=yes
+
+- include: DownloadSW.yml
